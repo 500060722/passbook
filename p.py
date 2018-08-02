@@ -58,15 +58,18 @@ def passbook(pin):
 	con=cx_Oracle.connect("SYSTEM/user1@localhost/xe")
 	cur=con.cursor()
 	cus=con.cursor()
+	cut=con.cursor()
 	cur.execute("SELECT Account_no from Accounts where PIN = :pass",{'pass':pin})
 	for line in cur:
 		account_no=line[0]
-	cur.execute("select name,date_of_birth,opening_date,type_of_account,balance from accounts where account_no= :b",{'b':account_no})#Query#
+	cut.execute("select name,date_of_birth,opening_date,type_of_account,balance from accounts where account_no= :b",{'b':account_no})#Query#
 	#cur.execute("select transaction_date,debit_amount from passbook1 where account_no=:b union select date_of_transaction,credit_amount from passbook2 where account_no=:c",{'b':account_no ,'c':account_no})
 	cur.execute("select transaction_date,debit_amount from passbook1 where account_no=:c",{'c':account_no})
 	cus.execute("select date_of_transaction,credit_amount from passbook2 where account_no=:c",{'c':account_no})
 	print("Your transactions is as follows: ")
 	#Use the SELECT query and join operation if applicable or print both tables(passbook1 and passbook2)
+	for line in cut:
+		print(line)
 	print("debit details")
 	for line in cur:
 		print(line)
