@@ -1,5 +1,5 @@
 import cx_Oracle
-con = cx_Oracle.connect('SYSTEM/user123@localhost/xe')
+con = cx_Oracle.connect('SYSTEM/user1@localhost/xe')
 cur = con.cursor()
 try:
     cur.execute(""" CREATE TABLE Passbook(Account_No Number(10),Present_Date Varchar2(20),Avail_Balance Number(20),FOREIGN KEY(Account_No) REFERENCES Accounts(Account_No))""")
