@@ -12,7 +12,7 @@ def debit():
 	#code starts
 	cur.execute("")#Update the balance in the Accounts table
 	cur.execute("")#Insert pass_no(or to keep it simple use only account no. as a foriegn key no need of pass_no.),debit_amount,date(take any date) and debit amount
-	#code ends
+	#code ends here
 	con.commit()
 	cur.close()
 	con.close()
