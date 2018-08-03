@@ -54,14 +54,28 @@ def credit(pin):
 	print("Done")
 	print("Your updated balance is ",credit_balance)
 
-def passbook():
+def passbook(pin):
 	con=cx_Oracle.connect("SYSTEM/user1@localhost/xe")
 	cur=con.cursor()
-	cur.execute("")#Query#
-	print("Your transactions is as follows: ")
-	#Use the SELECT query and join operation if applicable or print both tables(passbook1 and passbook2)
+	cus=con.cursor()
+	cut=con.cursor()
+	cur.execute("SELECT Account_no from Accounts where PIN = :pass",{'pass':pin})
+	for line in cur:
+		account_no=line[0]
+	cut.execute("select name,date_of_birth,opening_date,type_of_account,balance from accounts where account_no= :b",{'b':account_no})#Query#
+	for line in cut:
+		print(line)
+	print("debit details")
+	#cur.execute("select transaction_date,debit_amount from passbook1 where account_no=:b union select date_of_transaction,credit_amount from passbook2 where account_no=:c",{'b':account_no ,'c':account_no})
+	cur.execute("select transaction_date,debit_amount from passbook1 where account_no=:c",{'c':account_no})
 	for line in cur:
 		print(line)
+	print("credit details")
+	cus.execute("select date_of_transaction,credit_amount from passbook2 where account_no=:c",{'c':account_no})
+	for line in cus:
+		print(line)
+	
+	#Use the SELECT query and join operation if applicable or print both tables(passbook1 and passbook2)
 	con.commit()
 	cur.close()
 	con.close()
@@ -75,8 +89,8 @@ def identification():
 	try:
 		cur.execute("select ACCOUNT_NO from ACCOUNTS where PIN =:pin",{'pin':pin})
 		for line in cur:
-				account_no=line[0]
-		print("So your account no is :",account_no)
+			account_no=line[0]
+                print("So your account no is :",account_no)
 		print("So please select the following:\n1>DEBIT THE AMOUNT\n2>CREDIT (DEPOSIT) THE AMOUNT\n3>PASSBOOOK PRINTING")
 		i=int(input("Enter your choice: "))
 		if (i==1):
