@@ -63,7 +63,7 @@ def passbook(pin):
 	for line in cur:
 		account_no=line[0]
 	cut.execute("select name,date_of_birth,opening_date,type_of_account,balance from accounts where account_no= :b",{'b':account_no})#Query#
-	
+	print("Account Details")
 	for line in cut:
 		print(line)
 	print("debit details")
@@ -96,10 +96,10 @@ def identification():
 		i=int(input("Enter your choice: "))
 		if (i==1):
 			debit(pin)
-			
+			passbook(pin)
 		if (i==2):
 			credit(pin)
-			
+			passbook(pin)
 		if (i==3):
 			passbook(pin)
 		if (i>3):
